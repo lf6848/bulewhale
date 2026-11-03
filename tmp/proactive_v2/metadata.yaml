@@ -1,0 +1,5 @@
+name: astrbot_proactive_v2
+desc: 会自己选题、也会自己刷热榜的主动消息；被什么吸引会沉淀成它自己的兴趣
+version: v0.4.1
+author: dsh
+repo: https://github.com/dsh/astrbot_proactive_v2

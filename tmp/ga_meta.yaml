@@ -1,0 +1,5 @@
+name: astrbot_group_attention
+desc: 群聊里判断「是不是在跟我说话」，替代固定概率的主动回复
+version: v0.2.0
+author: dsh
+repo: https://github.com/dsh/astrbot_group_attention

@@ -1,0 +1,21 @@
+{"id": "q001", "cat": "baseline", "ask_user": "1034867860", "q": "我在上海哪个区上学？", "expect_ids": [9], "note": "原话事实，importance 0.8"}
+{"id": "q002", "cat": "baseline", "ask_user": "1034867860", "q": "我在 CSGO 里养了什么？", "expect_ids": [3, 4], "note": "同一事实有两条重复（3/4），用于验证冗余去除只留一条"}
+{"id": "q003", "cat": "baseline", "ask_user": "1034867860", "q": "我最近要参加什么活动？", "expect_ids": [15], "note": "project 类型"}
+{"id": "q004", "cat": "baseline", "ask_user": "1034867860", "q": "我看哪个战队的比赛？", "expect_ids": [30], "note": "preference"}
+{"id": "q005", "cat": "baseline", "ask_user": "1034867860", "q": "我平时几点睡？", "expect_ids": [31], "note": "作息习惯"}
+{"id": "q006", "cat": "baseline", "ask_user": "1034867860", "q": "你叫什么名字？我为你做过什么？", "expect_ids": [14], "note": "机器人自身事实"}
+{"id": "q007", "cat": "baseline", "ask_user": "1497575193", "q": "我想研发什么？", "expect_ids": [53], "note": "另一个用户的记忆"}
+{"id": "q008", "cat": "baseline", "ask_user": "1497575193", "q": "你给我起过什么外号？我们约定了什么？", "expect_ids": [54], "note": "relationship"}
+{"id": "q009", "cat": "synonym", "ask_user": "1034867860", "q": "那只小鸡每天要做什么？", "expect_ids": [3, 4], "note": "同义问法：不出现 CSGO"}
+{"id": "q010", "cat": "synonym", "ask_user": "1034867860", "q": "我念书的地方在哪？", "expect_ids": [9], "note": "同义问法：不出现上海/学校"}
+{"id": "q011", "cat": "negative", "ask_user": "1034867860", "q": "我在北京上学吗？", "expect_ids": [9], "note": "召回真实地点用于否认北京。但能否否认取决于原文语义：只有明确「就读地点」才是否定依据，仅居住地不足以否认。本条 source_msg_ids 为空、原始语句不可考，题集只校验召回与不编造，否定话术另由人工核验。"}
+{"id": "q012", "cat": "no_answer", "ask_user": "1034867860", "q": "我的车牌号是多少？", "expect_ids": [], "note": "库里没有，不能编"}
+{"id": "q013", "cat": "no_answer", "ask_user": "1034867860", "q": "我养的那只猫叫什么名字？", "expect_ids": [3, 4], "note": "养鸡不能推出没有猫。召回养鸡只作相关背景；回答只能说「没有这只猫名字的记录」，不得据此纠正用户「你养的是鸡」。题集校验召回范围，话术约束在验收里人工过。"}
+{"id": "q014", "cat": "isolation", "ask_user": "1034867860", "q": "1497575193 想研发什么？", "expect_ids": [], "note": "跨用户：不得泄露他人记忆，也不得有无关注入"}
+{"id": "q015", "cat": "idempotent", "ask_user": "1034867860", "q": "我在上海哪个区上学？", "expect_ids": [9], "note": "与 q001 重复，验证 recall_count 不因重跑变化"}
+{"id": "q016", "cat": "cold", "ask_user": "1034867860", "q": "上海 学校 上学", "expect_ids": [9], "note": "冷处理后强线索仍应召回"}
+{"id": "q017", "cat": "cold", "ask_user": "1034867860", "q": "我学校在哪个城市", "expect_ids": [], "note": "冷层 + 固定时钟(+150 天)：弱线索（只有属性擦边、无实词证据）必须为空。", "now_offset_days": 150}
+{"id": "q018", "cat": "update", "ask_user": "1034867860", "q": "我现在住上海哪里？", "expect_ids": [9], "note": "预置更新：注入'我搬去徐汇了'后再问，应答徐汇而非闵行"}
+{"id": "q019", "cat": "same_name", "ask_user": "1034867860", "q": "小明最近在忙什么？", "expect_ids": [], "note": "同名人物专项：库内无小明，不得张冠李戴"}
+{"id": "q020", "cat": "budget", "ask_user": "1034867860", "q": "说说你记得的关于我的一切", "expect_ids": [3, 4, 9, 14, 15, 30, 31], "note": "泛问：候选充足时验证 5 条上限与补位，且冲突对整体取舍"}
+{"id": "q021", "cat": "warm", "ask_user": "1034867860", "q": "我学校在哪个城市", "expect_ids": [9], "note": "同一问句在温层（当前 3 天数据）应正常召回，作为 q017 的对照组。"}

@@ -1,0 +1,20 @@
+{"id": "n01", "cat": "baseline", "ask_user": "1034867860", "q": "我在哪个区上学", "expect_ids": [9], "note": "闵行（学校事实，id9）"}
+{"id": "n02", "cat": "baseline", "ask_user": "1034867860", "q": "我关注哪个战队", "expect_ids": [30], "note": "TYLOO 天禄（id30）"}
+{"id": "n03", "cat": "baseline", "ask_user": "1034867860", "q": "我最近要参加什么", "expect_ids": [15], "note": "招聘会（id15）"}
+{"id": "n04", "cat": "baseline", "ask_user": "1034867860", "q": "我的机器人做过什么改进", "expect_ids": [14], "note": "修 @ 别人时凑热闹（id14）"}
+{"id": "n05", "cat": "baseline", "ask_user": "1034867860", "q": "我在游戏里养了什么宠物", "expect_ids": [3, 4], "note": "CSGO 宠物小鸡（id3/4 重复对）"}
+{"id": "n06", "cat": "baseline", "ask_user": "1034867860", "q": "我平时睡得很晚吗", "expect_ids": [31], "note": "熬夜作息偏晚（id31）"}
+{"id": "n07", "cat": "paraphrase", "ask_user": "1034867860", "q": "我学校在哪个城市", "expect_ids": [9], "note": "换个说法问同一事实"}
+{"id": "n08", "cat": "paraphrase", "ask_user": "1034867860", "q": "你叫什么名字", "expect_ids": [14], "note": "机器人名 大肥鱼（id14）"}
+{"id": "n09", "cat": "multi", "ask_user": "1034867860", "q": "我熬夜一般在看什么", "expect_ids": [30, 31], "note": "两条共同支撑：熬夜 + 看比赛"}
+{"id": "n10", "cat": "no_answer", "ask_user": "1034867860", "q": "我的手机号是多少", "expect_ids": [], "note": "库里没有，必须空"}
+{"id": "n11", "cat": "no_answer", "ask_user": "1034867860", "q": "我开什么车", "expect_ids": [], "note": "库里没有，必须空"}
+{"id": "n12", "cat": "isolate", "ask_user": "1034867860", "q": "1497575193 研发的东西是什么", "expect_ids": [], "note": "跨用户：不得泄露他人记忆"}
+{"id": "n13", "cat": "isolate", "ask_user": "1497575193", "q": "我研发的味觉交互器进度如何", "expect_ids": [53], "note": "本人问自己的计划，应召回（id53）"}
+{"id": "n14", "cat": "cold", "ask_user": "1034867860", "q": "上海 闵行 上学", "expect_ids": [9], "now_offset_days": 200, "note": "冷层 + 固定时钟(+200 天)：强线索仍召回"}
+{"id": "n15", "cat": "cold", "ask_user": "1034867860", "q": "我学校在哪", "expect_ids": [], "now_offset_days": 200, "note": "冷层 + 固定时钟(+200 天)：弱线索必须空"}
+{"id": "n16", "cat": "broad", "ask_user": "1034867860", "q": "你都记得我哪些事", "expect_ids": [3, 4, 9, 14, 15, 30, 31], "note": "宽泛查询，至少命中一条已知事实"}
+{"id": "n17", "cat": "paraphrase", "ask_user": "1034867860", "q": "我在 CSGO 里养的宠物叫什么", "expect_ids": [3, 4], "note": "同事实换词（宠物/小鸡）"}
+{"id": "n18", "cat": "update", "ask_user": "1034867860", "q": "我最近参加招聘会了吗", "expect_ids": [15], "note": "同一事实的确认式问法"}
+{"id": "n19", "cat": "observe", "ask_user": "1034867860", "q": "我住在哪个小区", "expect_ids": [], "observe": true, "note": "观察项：residence 属性与 school 事实可能擦边，不计分"}
+{"id": "n20", "cat": "observe", "ask_user": "1034867860", "q": "我养的是猫吗", "expect_ids": [], "observe": true, "note": "观察项：pet 属性未细分物种，可能误注入小鸡，不计分"}

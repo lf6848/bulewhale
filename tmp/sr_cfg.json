@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "max_items": 4,
+  "max_tokens": 320,
+  "max_candidates": 300,
+  "min_score": 0.05
+}

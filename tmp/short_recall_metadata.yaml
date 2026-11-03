@@ -1,0 +1,5 @@
+name: astrbot_short_recall
+desc: 48 小时短期回忆（只读，不写入任何数据）
+version: v0.1.0
+author: dsh
+repo: https://github.com/dsh/astrbot_short_recall

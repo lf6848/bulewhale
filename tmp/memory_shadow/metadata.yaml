@@ -1,0 +1,5 @@
+name: astrbot_memory_shadow
+desc: 遗忘树 v2 影子计算；read_path_v2 可按用户白名单灰度注入，默认不写生产状态
+version: v0.2.0
+author: dsh
+repo: https://github.com/dsh/astrbot_memory_shadow

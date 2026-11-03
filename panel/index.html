@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AstrBot 控制台</title>
+<style>
+  :root{
+    --bg:#0b0f16; --panel:#111823; --panel2:#0e141d; --line:#1e2836;
+    --txt:#e6edf7; --dim:#8a97a8; --dim2:#5c6b7f;
+    --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444; --acc:#3b82f6; --acc2:#8b5cf6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#152033 0%,var(--bg) 55%);color:var(--txt);
+       font:14px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;min-height:100vh}
+  .wrap{max-width:1240px;margin:0 auto;padding:26px 22px 60px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--acc),var(--acc2));
+        display:grid;place-items:center;font-weight:700;font-size:17px;box-shadow:0 6px 20px #3b82f655}
+  h1{font-size:18px;margin:0;letter-spacing:.4px}
+  .sub{color:var(--dim2);font-size:12px;margin-top:1px}
+  .spacer{flex:1}
+  .pill{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:#101a27;
+        border:1px solid var(--line);font-size:12px;color:var(--dim)}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--dim2)}
+  .dot.ok{background:var(--ok);box-shadow:0 0 0 3px #22c55e22;animation:pulse 2s infinite}
+  .dot.bad{background:var(--bad);box-shadow:0 0 0 3px #ef444422}
+  @keyframes pulse{50%{opacity:.45}}
+  .grid{display:grid;gap:16px}
+  .launch{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:16px}
+  .card{background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);border:1px solid var(--line);
+        border-radius:14px;padding:16px 18px}
+  .card h2{font-size:13px;margin:0 0 12px;color:var(--dim);font-weight:600;letter-spacing:.5px;
+           text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .card h2 .bar{width:3px;height:13px;border-radius:2px;background:linear-gradient(var(--acc),var(--acc2))}
+  a.btn{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--txt);background:#0d1520;
+        border:1px solid var(--line);border-radius:12px;padding:13px 15px;transition:.18s;position:relative;overflow:hidden}
+  a.btn:hover{border-color:#2f4a6d;background:#122032;transform:translateY(-1px)}
+  a.btn .ico{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex:none}
+  .i-blue{background:#1d4ed822;color:#60a5fa} .i-purple{background:#8b5cf622;color:#a78bfa} .i-green{background:#22c55e22;color:#4ade80}
+  a.btn .t{font-weight:600;font-size:14px} a.btn .d{font-size:11.5px;color:var(--dim2)}
+  a.btn .arrow{margin-left:auto;color:var(--dim2);font-size:15px}
+  .cols{grid-template-columns:1.05fr .95fr}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:13px}
+  .kv .k{color:var(--dim2);white-space:nowrap}
+  .kv .v{color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .meter{margin-top:11px}
+  .meter .top{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-bottom:5px}
+  .track{height:7px;border-radius:6px;background:#1a2432;overflow:hidden}
+  .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .5s}
+  .fill.warn{background:linear-gradient(90deg,#f59e0b,#f97316)}
+  .fill.bad{background:linear-gradient(90deg,#ef4444,#dc2626)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--dim2);font-weight:500;font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;
+     padding:0 8px 8px;border-bottom:1px solid var(--line)}
+  td{padding:10px 8px;border-bottom:1px solid #16202e;font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  .tag{font-size:11px;padding:2px 8px;border-radius:6px;background:#1a2432;color:var(--dim)}
+  .tag.ok{background:#22c55e1f;color:#4ade80} .tag.bad{background:#ef44441f;color:#f87171}
+  .tag.wait{background:#f59e0b1f;color:#fbbf24}
+  .logs{margin-top:16px}
+  .tabs{display:flex;gap:8px;margin-bottom:10px}
+  .tab{padding:7px 15px;border-radius:9px;background:#0d1520;border:1px solid var(--line);color:var(--dim);
+       cursor:pointer;font-size:12.5px;user-select:none}
+  .tab.on{background:#16243a;border-color:#2f4a6d;color:var(--txt)}
+  pre{margin:0;background:#080c12;border:1px solid var(--line);border-radius:11px;padding:14px;
+      font:12px/1.55 "Cascadia Mono",Consolas,monospace;color:#9fb2c8;height:320px;overflow:auto;white-space:pre-wrap;word-break:break-all}
+  pre::-webkit-scrollbar{width:9px} pre::-webkit-scrollbar-thumb{background:#243244;border-radius:9px}
+  .foot{margin-top:18px;color:var(--dim2);font-size:11.5px;display:flex;gap:16px;flex-wrap:wrap}
+  .btns{display:flex;gap:8px;align-items:center}
+  button{background:#0d1520;border:1px solid var(--line);color:var(--dim);border-radius:9px;padding:6px 12px;
+         font-size:12px;cursor:pointer;transition:.15s;font-family:inherit}
+  button:hover{border-color:#2f4a6d;color:var(--txt)}
+  button.on{background:#16243a;border-color:#2f4a6d;color:var(--txt)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">A</div>
+    <div>
+      <h1>AstrBot 控制台</h1>
+      <div class="sub">阿里云 ECS · 118.178.98.186</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="pill"><span class="dot" id="dotTunnel"></span><span id="txtTunnel">隧道检测中</span></div>
+    <div class="pill"><span class="dot" id="dotSrv"></span><span id="txtSrv">服务器检测中</span></div>
+    <div class="btns">
+      <button id="btnAuto" class="on">自动刷新 5s</button>
+      <button id="btnNow">立即刷新</button>
+    </div>
+  </header>
+
+  <div class="grid launch">
+    <a class="btn" href="http://127.0.0.1:6185" target="_blank">
+      <div class="ico i-blue">◆</div>
+      <div><div class="t">AstrBot 控制台</div><div class="d">模型 / 插件 / 人格 · 6185</div></div>
+      <div class="arrow">↗</div>
+    </a>
+    <a class="btn" href="http://127.0.0.1:15099" target="_blank">
+      <div class="ico i-purple">◈</div>
+      <div><div class="t">SnowLuma 面板</div><div class="d">OneBot / 网络桥接 · 15099</div></div>
+      <div class="arrow">↗</div>
+    </a>
+    <a class="btn" href="http://127.0.0.1:16081/vnc.html" target="_blank">
+      <div class="ico i-green">◉</div>
+      <div><div class="t">noVNC 扫码登录</div><div class="d">QQ 客户端远程桌面 · 16081</div></div>
+      <div class="arrow">↗</div>
+    </a>
+  </div>
+
+  <div class="grid cols">
+    <div class="card">
+      <h2><span class="bar"></span>服务器状态</h2>
+      <div class="kv">
+        <div class="k">主机</div><div class="v" id="sHost">—</div>
+        <div class="k">系统内核</div><div class="v" id="sKernel">—</div>
+        <div class="k">CPU</div><div class="v" id="sCpu">—</div>
+        <div class="k">核心数</div><div class="v" id="sCores">—</div>
+        <div class="k">负载</div><div class="v" id="sLoad">—</div>
+        <div class="k">运行时长</div><div class="v" id="sUptime">—</div>
+        <div class="k">启动时间</div><div class="v" id="sBoot">—</div>
+      </div>
+      <div class="meter">
+        <div class="top"><span>内存</span><span id="mMemTxt">—</span></div>
+        <div class="track"><div class="fill" id="mMem" style="width:0%"></div></div>
+      </div>
+      <div class="meter">
+        <div class="top"><span>磁盘 /</span><span id="mDiskTxt">—</span></div>
+        <div class="track"><div class="fill" id="mDisk" style="width:0%"></div></div>
+      </div>
+      <div class="meter">
+        <div class="top"><span>Swap</span><span id="mSwapTxt">—</span></div>
+        <div class="track"><div class="fill" id="mSwap" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="bar"></span>机器人信息</h2>
+      <div class="kv">
+        <div class="k">QQ 号</div><div class="v" id="bUin">—</div>
+        <div class="k">登录状态</div><div class="v" id="bState">—</div>
+        <div class="k">好友 / 群</div><div class="v" id="bCounts">—</div>
+        <div class="k">OneBot 适配器</div><div class="v" id="bAdapters">—</div>
+        <div class="k">反向 WS</div><div class="v" id="bWs">—</div>
+        <div class="k">模型</div><div class="v" id="bModel">—</div>
+        <div class="k">AstrBot 适配器</div><div class="v" id="bAdapterOk">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2><span class="bar"></span>服务与隧道</h2>
+    <table>
+      <thead><tr><th>容器</th><th>状态</th><th>CPU</th><th>内存</th><th>隧道</th><th>镜像</th></tr></thead>
+      <tbody id="svcBody"><tr><td colspan="6" style="color:var(--dim2)">加载中…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="card logs">
+    <h2><span class="bar"></span>运行日志</h2>
+    <div class="tabs">
+      <div class="tab on" data-k="astrbot">AstrBot</div>
+      <div class="tab" data-k="snowluma">SnowLuma</div>
+    </div>
+    <pre id="logBox">加载中…</pre>
+  </div>
+
+  <div class="foot">
+    <span>数据来源：SSH · docker</span>
+    <span id="stamp">—</span>
+    <span>面板仅监听 127.0.0.1</span>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let logTab = 'astrbot', auto = true, timer = null, last = null;
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function pct(a,b){ if(!b) return 0; return Math.max(0, Math.min(100, Math.round(a/b*100))); }
+function bar(el, p){ el.style.width = p+'%'; el.className = 'fill' + (p>=90?' bad':p>=70?' warn':''); }
+
+function render(d){
+  last = d;
+  const t = d.tunnel || {};
+  const tAll = t.astrbot && t.snowluma && t.novnc;
+  $('dotTunnel').className = 'dot ' + (tAll?'ok':'bad');
+  $('txtTunnel').textContent = tAll ? '隧道正常' : '隧道异常';
+  $('dotSrv').className = 'dot ' + (d.ok?'ok':'bad');
+  $('txtSrv').textContent = d.ok ? '服务器在线' : '服务器失联';
+  $('stamp').textContent = '更新于 ' + (d.ts || '—');
+
+  const s = d.server || {};
+  $('sHost').textContent   = s.host || '—';
+  $('sKernel').textContent = s.kernel || '—';
+  $('sCpu').textContent    = (s.cpu || '—').replace('@',' @');
+  $('sCores').textContent  = s.cores ? s.cores + ' 核' : '—';
+  $('sLoad').textContent   = s.load || '—';
+  $('sUptime').textContent = (s.uptime || '—').replace(/^up\s*/,'');
+  $('sBoot').textContent   = s.boot || '—';
+
+  const mt = +s.memTotal||0, mu = +s.memUsed||0;
+  $('mMemTxt').textContent = mt ? `${mu} / ${mt} MB` : '—';
+  bar($('mMem'), pct(mu, mt));
+  const dp = parseInt(String(s.diskPct||'0').replace('%',''),10)||0;
+  $('mDiskTxt').textContent = s.diskTotal ? `${s.diskUsed} / ${s.diskTotal} (${s.diskPct})` : '—';
+  bar($('mDisk'), dp);
+  const st = +s.swapTotal||0, su = +s.swapUsed||0;
+  $('mSwapTxt').textContent = st ? `${su} / ${st} MB` : '无 swap';
+  bar($('mSwap'), pct(su, st));
+
+  const b = d.bot || {};
+  $('bUin').textContent = b.uin || '未登录';
+  const stTxt = {online:'已登录',waiting:'等待扫码',unknown:'未知'}[b.state] || b.state;
+  $('bState').innerHTML = `<span class="tag ${b.state==='online'?'ok':b.state==='waiting'?'wait':'bad'}">${esc(stTxt)}</span>`;
+  $('bCounts').textContent = (b.friends||'—') + ' / ' + (b.groups||'—');
+  $('bAdapters').textContent = b.adapters ? b.adapters + ' 个' : '—';
+  $('bWs').textContent = b.ws || '—';
+  $('bModel').textContent = b.model || '未配置';
+  $('bAdapterOk').innerHTML = b.adapterOk
+    ? '<span class="tag ok">已连接</span>' : '<span class="tag bad">未连接</span>';
+
+  const rows = (d.services||[]).map(v => `
+    <tr>
+      <td>${esc(v.name)}</td>
+      <td><span class="tag ${v.state==='running'?'ok':'bad'}">${esc(v.status||v.state)}</span></td>
+      <td>${esc(v.cpu||'—')}</td>
+      <td>${esc(v.mem||'—')}</td>
+      <td><span class="tag ${v.tunnel?'ok':'bad'}">${v.tunnel?'已转发':'断开'}</span></td>
+      <td style="color:var(--dim2);font-size:12px">${esc(v.image)}</td>
+    </tr>`).join('');
+  $('svcBody').innerHTML = rows || '<tr><td colspan="6" style="color:var(--dim2)">没有找到容器</td></tr>';
+
+  const logs = (d.logs || {})[logTab] || [];
+  const box = $('logBox');
+  const atBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 40;
+  box.textContent = logs.join('\n') || '（暂无日志）';
+  if (atBottom) box.scrollTop = box.scrollHeight;
+}
+
+async function load(){
+  try{
+    const r = await fetch('/api/status', {cache:'no-store'});
+    render(await r.json());
+  }catch(e){
+    $('dotSrv').className = 'dot bad';
+    $('txtSrv').textContent = '面板无响应';
+  }
+}
+
+function schedule(){
+  clearInterval(timer);
+  if (auto) timer = setInterval(load, 5000);
+}
+
+document.querySelectorAll('.tab').forEach(el => el.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  el.classList.add('on');
+  logTab = el.dataset.k;
+  if (last) render(last);
+});
+$('btnNow').onclick = load;
+$('btnAuto').onclick = e => {
+  auto = !auto;
+  e.target.classList.toggle('on', auto);
+  e.target.textContent = auto ? '自动刷新 5s' : '已暂停';
+  schedule();
+};
+
+load(); schedule();
+</script>
+</body>
+</html>

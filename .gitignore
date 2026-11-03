@@ -1,0 +1,26 @@
+# Private keys and local access material
+_dsh-aa.pem
+id_deploy
+id_deploy.pub
+key_ssh
+
+# Local backup archives and restored data
+backup/
+_backup/
+
+# Runtime, generated, and test-only data
+.dsh-uploads/
+.dsh-pilot/
+tmp/**/__pycache__/
+tmp/**/_stub/
+tmp/**/_data/
+tmp/**/_braintest*/
+tmp/_ga_tmp/
+*.pyc
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Diagnostic screenshots are not source
+shot*.png

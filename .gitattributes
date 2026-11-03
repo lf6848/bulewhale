@@ -1,0 +1,13 @@
+# Preserve the executable script formats used by the local and remote hosts.
+*.sh text eol=lf
+sshx text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.yaml text eol=lf
+*.html text eol=lf
+
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf

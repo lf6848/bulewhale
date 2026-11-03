@@ -1,0 +1,33 @@
+{
+  "enabled": true,
+  "umo": "aiocqhttp:FriendMessage:1034867860",
+  "interval_minutes": 120,
+  "active_hour_start": 9,
+  "active_hour_end": 23,
+  "max_per_day": 8,
+  "deferred_cooldown_hours": 48,
+  "web_enabled": true,
+  "web_results": 4,
+  "max_chars": 90,
+  "recent_dialogue": 12,
+  "min_gap_after_proactive_minutes": 90,
+  "own_share_enabled": true,
+  "own_share_per_day": 3,
+  "own_share_ratio": 0.5,
+  "interest_max": 12,
+  "browse_queries": [
+    "抖音热点榜 今日",
+    "B站热门榜 今日",
+    "斗鱼热门 今天",
+    "游戏圈 今日 热搜"
+  ],
+  "browse_sources": 3,
+  "titles_per_source": 8,
+  "deep_dive": true,
+  "dive_results": 2,
+  "dive_chars": 500,
+  "think_step": true,
+  "veto_step": true,
+  "veto_own_only": true,
+  "veto_retry": 1
+}

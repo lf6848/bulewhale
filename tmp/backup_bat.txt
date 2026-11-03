@@ -1,0 +1,41 @@
+@echo off
+chcp 936 >nul
+setlocal enabledelayedexpansion
+set "KEY=D:\dsh-qq\key_ssh"
+set "HOST=root@118.178.98.186"
+set "LOCAL=D:\dsh-qq\backup"
+set "SSH=C:\Windows\System32\OpenSSH\ssh.exe"
+set "SCP=C:\Windows\System32\OpenSSH\scp.exe"
+set "TMPF=%TEMP%\dsh-snap-path.txt"
+
+if not exist "%LOCAL%" mkdir "%LOCAL%"
+
+echo [1/3] 在服务器上打包快照...
+del /q "%TMPF%" 2>nul
+"%SSH%" -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=NUL -i "%KEY%" %HOST% "/usr/local/bin/snapshot.sh >/dev/null 2>&1; ls -1t /var/backups/dsh-qq/snapshot-*.tar.gz 2>/dev/null | head -1" > "%TMPF%" 2>nul < NUL
+set "REMOTE="
+if exist "%TMPF%" set /p REMOTE=<"%TMPF%"
+if "!REMOTE!"=="" (
+    echo    失败了：没拿到快照路径，检查 ssh 能不能连。
+    exit /b 1
+)
+echo    !REMOTE!
+
+echo [2/3] 下载到 %LOCAL% ...
+for %%%%A in ("!REMOTE!") do set "BASENAME=%%%%~nxA"
+"%SCP%" -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=NUL -i "%KEY%" %HOST%:!REMOTE! "%LOCAL%\!BASENAME!" < NUL
+if errorlevel 1 (
+    echo    下载失败。
+    exit /b 1
+)
+
+echo [3/3] 本地只保留最近 5 份...
+set /a n=0
+for /f "delims=" %%f in ('dir /b /o-d "%LOCAL%\snapshot-*.tar.gz" 2^>nul') do (
+    set /a n+=1
+    if !n! GTR 5 del "%LOCAL%\%%f"
+)
+for %%f in ("%LOCAL%\snapshot-*.tar.gz") do echo    %%~nxf  %%~zf bytes
+
+echo.
+echo 完成。备份目录：%LOCAL%

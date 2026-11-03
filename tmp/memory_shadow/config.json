@@ -1,0 +1,11 @@
+{
+  "shadow_v2": true,
+  "read_path_v2": false,
+  "write_path_v2": false,
+  "maintain_v2": false,
+  "max_inject": 5,
+  "budget_tokens": 320,
+  "cold_r": 0.08,
+  "cold_rel_gate": 0.20,
+  "rel_floor": 0.05
+}

@@ -1,0 +1,9 @@
+#!/bin/bash
+# Wrapper: run a command on the Aliyun ECS box
+exec ssh -i /d/dsh-qq/id_deploy \
+  -o StrictHostKeyChecking=no \
+  -o UserKnownHostsFile=/dev/null \
+  -o BatchMode=yes \
+  -o ServerAliveInterval=30 \
+  -o ConnectTimeout=15 \
+  root@118.178.98.186 "$@"

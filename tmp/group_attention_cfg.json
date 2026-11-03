@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "aliases": ["大肥鱼", "肥鱼", "大鱼", "小肥鱼", "肥鱼bot", "大肥魚",
+              "小鲸鱼", "鲸鱼", "大鲸鱼", "肥鲸",
+              "deepseek", "deep seek", "ds", "小ds", "ds老师"],
+  "pronouns": ["你", "您"],
+  "llm_judge": true,
+  "llm_provider_id": "",
+  "cooldown_seconds": 8,
+  "followup_window": 3,
+  "followup_judge": true,
+  "learn_aliases": true,
+  "learn_min_count": 2,
+  "fallback_probability": 0.05,
+  "max_context_messages": 12,
+  "timeout_seconds": 6
+}

@@ -1,0 +1,5 @@
+name: astrbot_brain_read
+desc: 把自我档案 self.md 与日记读进模型（只读；日记按问题指向的日期/主题选材）
+version: v0.2.0
+author: dsh
+repo: https://github.com/dsh/astrbot_brain_read
