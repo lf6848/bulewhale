@@ -12,6 +12,7 @@
 | --- | --- | --- | --- |
 | REQ-INTAKE-01 | 阅读项目说明并建立可持续维护的交接入口 | 已完成 | `README.md`、根目录 `AGENTS.md` 与本协调区 |
 | REQ-INTAKE-02 | 确认本地插件测试基线 | 已完成 | `brain_read`、`proactive_v2` 通过；`memory_shadow` 已改为自建 fixture 并通过 4 项 |
+| REQ-INTAKE-03 | 将工作区安全接入指定 GitHub 仓库 | 已完成 | `main` 已建立本地提交并跟踪 `origin/main`；提交前已排除密钥、备份与生成数据 |
 
 ## 下一步（需用户指定优先级）
 

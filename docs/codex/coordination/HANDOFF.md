@@ -9,7 +9,7 @@
 ## 本轮确认
 
 - 已阅读 README 与全局工作台的项目接入规则。
-- 已建立项目规则和协调文件；项目没有 Git 版本库。
+- 已建立项目规则和协调文件；Git `main` 已跟踪指定 GitHub 远端。该工作区在 Codex 沙箱中需对 Git 命令使用一次性 `safe.directory` 参数。
 - 离线测试：`brain_read` 通过，`proactive_v2` 的 29 项通过。
 - `memory_shadow/test_inject.py` 已改为自建临时 SQLite fixture，并显式关闭缓存连接。正常路径 4 项通过；受控故障注入返回退出码 1，证明失败不会再假绿。
 
@@ -23,4 +23,4 @@
 
 ## 首要风险
 
-详见 `REVIEW_QUEUE.md`：无 Git 历史、机密以明文存在于项目文档与脚本配置中；memory-shadow 的测试假绿已修复并保留验收记录。
+详见 `REVIEW_QUEUE.md`：凭据迁移与历史清理仍需单独规划；Git 接入与 memory-shadow 的测试假绿均已修复并保留验收记录。
